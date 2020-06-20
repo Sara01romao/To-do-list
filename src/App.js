@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Todolist from './Todolist';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  constructor(props){
+      super(props);
+      this.state= {itens:[], etxt:''};
+  }
+
+// método para o Submit do form
+
+handleSubmit = (e) =>{
+  e.preventDefault();
+  if(!this.state.text.length){
+    return;
+  }
+  const item ={
+    text: this.state.text,
+    id: Date.now()
+  }
+  this.setState(state=> ({
+    itens: state.itens.concat(item),
+    text:''
+
+  }));
 }
+
+// método para Change do input
+
+handleChange = (e)=>{
+  this.setState({text: e.target.value});
+}
+
+
+
+  render(){
+      return(
+          <div>
+            <h3>Tarefas</h3>
+            <Todolist itens={this.state.itens}/>
+            <br/>
+
+            <form onSubmit={this.handleSubmit}>
+            <input id="new-todo" 
+              onChange={this.handleChange}
+              value={this.state.text}
+              />
+
+              <button>Inserir</button>
+
+            </form>
+            
+          </div>
+      );
+  }
+}
+
 
 export default App;
